@@ -1,0 +1,120 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "t_bin": {
+      "name": "t_bin",
+      "columns": {
+        "ID": {
+          "autoincrement": false,
+          "name": "ID",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Location_X": {
+          "autoincrement": false,
+          "name": "Location_X",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Location_Y": {
+          "autoincrement": false,
+          "name": "Location_Y",
+          "type": "float",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Status": {
+          "autoincrement": false,
+          "name": "Status",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "LastServiceTime": {
+          "autoincrement": false,
+          "name": "LastServiceTime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "LastFullTime": {
+          "autoincrement": false,
+          "name": "LastFullTime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Category": {
+          "autoincrement": false,
+          "name": "Category",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Description": {
+          "autoincrement": false,
+          "name": "Description",
+          "type": "varchar(128)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "LastDisconnectedTime": {
+          "autoincrement": false,
+          "name": "LastDisconnectedTime",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Active": {
+          "autoincrement": false,
+          "name": "Active",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "t_bin_ID": {
+          "name": "t_bin_ID",
+          "columns": [
+            "ID"
+          ]
+        }
+      },
+      "indexes": {
+        "IX_STATUS": {
+          "name": "IX_STATUS",
+          "columns": [
+            "Status"
+          ],
+          "isUnique": false
+        },
+        "IX_Category": {
+          "name": "IX_Category",
+          "columns": [
+            "Category"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {},
+    "indexes": {}
+  }
+}
