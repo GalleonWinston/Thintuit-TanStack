@@ -1,10 +1,22 @@
 services:
   app:
     build: .
-    ports:
-      - "3000:3000"
     env_file:
       - .env.local
     environment:
       - NITRO_HOST=0.0.0.0
       - NITRO_PORT=3000
+
+  caddy:
+    image: caddy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_certs:/config
+
+volumes:
+  caddy_data:
+  caddy_certs:
