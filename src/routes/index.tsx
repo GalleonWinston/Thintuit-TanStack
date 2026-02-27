@@ -89,15 +89,15 @@ function BinDetail({
   setLoading(false)
 }
   const statuses = [
-    { value: 1, label: 'Normal' },
-    { value: 2, label: 'OK' },
+    { value: 1, label: 'Disconnected' },
+    { value: 2, label: 'Normal' },
     { value: 3, label: 'Full' },
     { value: 4, label: 'Low Battery' },
   ]
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="w-lg">
+      <DialogContent className="w-lg [&>button]:h-8 [&>button]:w-8 [&>button]:top-4 [&>button]:right-4 [&>button>svg]:h-5 [&>button>svg]:w-5">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-2xl">
             <BinIcon status={bin.status} size={40} />
