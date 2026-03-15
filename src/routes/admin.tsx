@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Map, Table2, Wifi, Trash2, AlertTriangle, Battery } from 'lucide-react'
 import { verifyAdminSession } from '@/server/admin'
 import { getBins, updateBinStatus } from '@/server/bins'
@@ -38,11 +38,18 @@ function App() {
   const [bins, setBins] = useState<any[]>(data)
   const [activeView, setActiveView] = useState<'map' | 'table'>('map')
   const [tableFilter, setTableFilter] = useState<number | 'all'>('all')
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const fresh = await getBins()
+      setBins(fresh)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   const handleStatusChange = async (id: number, newStatus: number) => {
-    setBins((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
-    )
     await updateBinStatus({ data: { id, status: newStatus } })
+    const fresh = await getBins()
+    setBins(fresh)
   }
 
   return (
