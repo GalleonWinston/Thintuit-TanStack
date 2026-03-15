@@ -1,9 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { checkApiKey } from '@/server/api-auth'
 
 export const Route = createFileRoute('/api/bin/updateStatus')({
   server: {
     handlers: {
       POST: async ({ request }: { request: Request }) => {
+        const unauthorized = checkApiKey(request)
+        if (unauthorized) return unauthorized
+
         try {
           const body = await request.json()
           const { id, status } = body
