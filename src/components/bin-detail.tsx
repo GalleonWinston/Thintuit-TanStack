@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { updateBinStatus } from '@/server/bins'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { BinIcon } from '@/components/bin-icon'
@@ -49,11 +50,7 @@ export function BinDetail({
 
   const handleStatusChange = async (newStatus: number) => {
     setLoading(true)
-    await fetch('/api/bin/updateStatus', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: bin.id, status: newStatus }),
-    })
+    await updateBinStatus({ data: { id: bin.id, status: newStatus } })
     onStatusChange(bin.id, newStatus)
     setLoading(false)
   }
@@ -73,6 +70,7 @@ export function BinDetail({
             <BinIcon status={bin.status} size={40} />
             Bin #{bin.id}
           </DialogTitle>
+          <DialogDescription className="sr-only">Bin details and status management</DialogDescription>
         </DialogHeader>
 
         <div className="flex items-center gap-2 flex-wrap">

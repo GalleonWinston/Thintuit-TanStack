@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { updateBinStatus } from '@/server/bins'
 
 const STATUS_LABELS: Record<number, string> = {
   1: 'Disconnected',
@@ -65,11 +66,7 @@ function StatusCell({ bin, onStatusChange }: { bin: Bin; onStatusChange: (id: nu
   const handleSelect = async (newStatus: number) => {
     if (newStatus === bin.status) { setOpen(false); return }
     setLoading(true)
-    await fetch('/api/bin/updateStatus', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: bin.id, status: newStatus }),
-    })
+    await updateBinStatus({ data: { id: bin.id, status: newStatus } })
     onStatusChange(bin.id, newStatus)
     setLoading(false)
     setOpen(false)
