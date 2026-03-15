@@ -80,24 +80,24 @@ export function BinMap({ bins, onStatusChange }: BinMapProps) {
           }}
         />
 
-        {imgSize.width > 0 &&
-          bins.map((bin) => (
-            <div
-              key={bin.id}
-              className="absolute flex items-center justify-center cursor-pointer select-none"
-              style={{
-                left: bin.locationX * cellW,
-                top: bin.locationY * cellH,
-                transform: 'translate(-50%, -50%)',
-              }}
-              onClick={() => setSelectedBin(bin)}
-            >
-              <BinIcon status={bin.status} size={iconSize} />
-              <span className="absolute font-bold text-black z-10 leading-none pointer-events-none">
-                {bin.id}
-              </span>
-            </div>
-          ))}
+        {bins.map((bin) => (
+          <div
+            key={bin.id}
+            className="absolute flex items-center justify-center cursor-pointer select-none"
+            style={{
+              left: bin.locationX * cellW,
+              top: bin.locationY * cellH,
+              transform: 'translate(-50%, -50%)',
+              visibility: imgSize.width > 0 ? 'visible' : 'hidden',
+            }}
+            onClick={() => setSelectedBin(bin)}
+          >
+            <BinIcon status={bin.status} size={iconSize} />
+            <span className="absolute font-bold text-black z-10 leading-none pointer-events-none">
+              {bin.id}
+            </span>
+          </div>
+        ))}
       </div>
 
       {selectedBin && (
