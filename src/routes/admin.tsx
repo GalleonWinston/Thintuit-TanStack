@@ -103,8 +103,11 @@ function App() {
               <button
                 key={value}
                 type="button"
-                onClick={() => { setActiveView('table'); setTableFilter(value) }}
-                className={`rounded-xl border ${border} ${bg} px-3 py-3 md:px-4 md:py-4 flex items-center gap-3 md:gap-4 text-left transition-shadow hover:shadow-md cursor-pointer`}
+                onClick={() => {
+                  setActiveView('table')
+                  setTableFilter(activeView === 'table' && tableFilter === value ? 'all' : value)
+                }}
+                className={`rounded-xl border ${border} ${bg} px-3 py-3 md:px-4 md:py-4 flex items-center gap-3 md:gap-4 text-left transition-shadow hover:shadow-md cursor-pointer ${activeView === 'table' && tableFilter === value ? `ring-2 ring-offset-1 ${text}` : ''}`}
               >
                 <div className={icon_color}>
                   <Icon size={28} className="md:hidden" />

@@ -92,7 +92,7 @@ export function BinMap({ bins, onStatusChange }: BinMapProps) {
             }}
             onClick={() => setSelectedBin(bin)}
           >
-            <BinIcon status={bin.status} size={iconSize} />
+            <BinIcon status={bin.status} category={bin.category} size={iconSize} />
             <span className="absolute font-bold text-black z-10 leading-none pointer-events-none">
               {bin.id}
             </span>
