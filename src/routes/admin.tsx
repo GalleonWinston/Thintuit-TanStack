@@ -54,8 +54,8 @@ function App() {
 
   return (
     <div className="flex flex-1 overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-(--ink) flex flex-col">
+      {/* Sidebar — desktop only */}
+      <aside className="hidden md:flex w-56 shrink-0 bg-(--ink) flex-col">
         <div className="px-4 pt-6 pb-4 border-b border-white/10">
           <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">Views</p>
         </div>
@@ -86,9 +86,9 @@ function App() {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 overflow-y-auto bg-gray-50">
+      <div className="flex-1 overflow-y-auto bg-gray-50 pb-16 md:pb-0">
         {/* Top bar */}
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between">
           <h1 className="text-lg font-semibold text-gray-900">
             {activeView === 'map' ? 'Map View' : 'Table View'}
           </h1>
@@ -96,7 +96,7 @@ function App() {
         </div>
 
         {/* Status stat cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 px-6 py-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 px-4 md:px-6 py-4 md:py-5">
           {STATUS_META.map(({ value, label, icon: Icon, bg, text, border, icon_color }) => {
             const count = bins.filter((b) => b.status === value).length
             return (
@@ -104,14 +104,15 @@ function App() {
                 key={value}
                 type="button"
                 onClick={() => { setActiveView('table'); setTableFilter(value) }}
-                className={`rounded-xl border ${border} ${bg} px-4 py-4 flex items-center gap-4 text-left transition-shadow hover:shadow-md cursor-pointer`}
+                className={`rounded-xl border ${border} ${bg} px-3 py-3 md:px-4 md:py-4 flex items-center gap-3 md:gap-4 text-left transition-shadow hover:shadow-md cursor-pointer`}
               >
                 <div className={icon_color}>
-                  <Icon size={36} />
+                  <Icon size={28} className="md:hidden" />
+                  <Icon size={36} className="hidden md:block" />
                 </div>
                 <div>
-                  <p className={`text-4xl font-extrabold ${text}`}>{count}</p>
-                  <p className="text-sm font-semibold text-gray-500 mt-1">{label}</p>
+                  <p className={`text-3xl md:text-4xl font-extrabold ${text}`}>{count}</p>
+                  <p className="text-xs md:text-sm font-semibold text-gray-500 mt-0.5 md:mt-1">{label}</p>
                 </div>
               </button>
             )
@@ -119,9 +120,9 @@ function App() {
         </div>
 
         {/* View content */}
-        <div className="px-6 pb-10">
+        <div className="px-4 md:px-6 pb-10">
           {activeView === 'table' ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-3 md:p-4 overflow-x-auto">
               <BinTable bins={bins} onStatusChange={handleStatusChange} filter={tableFilter} onFilterChange={setTableFilter} />
             </div>
           ) : (
@@ -131,6 +132,23 @@ function App() {
           )}
         </div>
       </div>
+
+      {/* Bottom nav — mobile only */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-20 bg-(--ink) flex border-t border-white/10">
+        {NAV.map(({ view, label, Icon }) => (
+          <button
+            key={view}
+            type="button"
+            onClick={() => setActiveView(view)}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors ${
+              activeView === view ? 'text-white' : 'text-white/45'
+            }`}
+          >
+            <Icon size={20} />
+            {label}
+          </button>
+        ))}
+      </nav>
     </div>
   )
 }

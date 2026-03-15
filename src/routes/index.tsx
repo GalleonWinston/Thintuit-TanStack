@@ -34,24 +34,24 @@ const features = [
 
 function LandingPage() {
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col overflow-y-auto">
       {/* Hero */}
       <main
-        className="flex-1 flex flex-col items-center justify-center text-center px-6 py-28 gap-6"
+        className="flex-1 flex flex-col items-center justify-center text-center px-6 py-16 sm:py-28 gap-6"
         style={{ background: 'linear-gradient(160deg, var(--foam) 0%, var(--bg-base) 100%)' }}
       >
-        <div className="flex flex-row items-center gap-5">
-          <img src="/cicada_logo.png" alt="Chimcada logo" className="w-32 h-32 object-contain drop-shadow-sm" />
-          <h1 className="text-6xl font-bold tracking-tight" style={{ color: 'var(--ink)' }}>
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
+          <img src="/cicada_logo.png" alt="Chimcada logo" className="w-24 h-24 sm:w-32 sm:h-32 object-contain drop-shadow-sm" />
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-center sm:text-left" style={{ color: 'var(--ink)' }}>
             Chimicada Project
           </h1>
         </div>
 
-        <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
+        <p className="text-base sm:text-lg text-muted-foreground max-w-lg leading-relaxed">
           Smart waste bin monitoring. Track bin status, automate work orders, and keep your environment clean.
         </p>
 
-        <div className="flex gap-3 text-sm text-muted-foreground mt-2">
+        <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground mt-2">
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> Normal
           </span>
