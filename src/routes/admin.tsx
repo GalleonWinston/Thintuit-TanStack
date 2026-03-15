@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useState, useEffect, useRef } from 'react'
-import { Map, Table2, Wifi, Trash2, AlertTriangle, Battery, RefreshCw } from 'lucide-react'
+import { useState } from 'react'
+import { Map, Table2, Wifi, Trash2, AlertTriangle, Battery } from 'lucide-react'
 import { verifyAdminSession } from '@/server/admin'
-import { getBins } from '@/server/bins'
+import { getBins, updateBinStatus } from '@/server/bins'
 import { BinMap } from '@/components/bin-map'
 import { BinTable } from '@/components/bin-table'
 
@@ -38,39 +38,11 @@ function App() {
   const [bins, setBins] = useState<any[]>(data)
   const [activeView, setActiveView] = useState<'map' | 'table'>('map')
   const [tableFilter, setTableFilter] = useState<number | 'all'>('all')
-  const [refreshing, setRefreshing] = useState(false)
-  const overridesRef = useRef<Record<number, number>>({})
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  const startInterval = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-    intervalRef.current = setInterval(async () => {
-      overridesRef.current = {}
-      const fresh = await getBins()
-      setBins(fresh)
-    }, 5000)
-  }
-
-  useEffect(() => {
-    startInterval()
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [])
-
-  const handleRefresh = async () => {
-    setRefreshing(true)
-    overridesRef.current = {}
-    const fresh = await getBins()
-    setBins(fresh)
-    startInterval()
-    setRefreshing(false)
-  }
-
-  const handleStatusChange = (id: number, newStatus: number) => {
-    overridesRef.current[id] = newStatus
+  const handleStatusChange = async (id: number, newStatus: number) => {
     setBins((prev) =>
       prev.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
     )
-    startInterval()
+    await updateBinStatus({ data: { id, status: newStatus } })
   }
 
   return (
@@ -113,18 +85,7 @@ function App() {
           <h1 className="text-lg font-semibold text-gray-900">
             {activeView === 'map' ? 'Map View' : 'Table View'}
           </h1>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400">{bins.length} bins total</span>
-            <button
-              type="button"
-              onClick={handleRefresh}
-              disabled={refreshing}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-50"
-            >
-              <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-              Refresh
-            </button>
-          </div>
+          <span className="text-sm text-gray-400">{bins.length} bins total</span>
         </div>
 
         {/* Status stat cards */}
