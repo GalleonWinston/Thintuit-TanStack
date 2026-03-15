@@ -31,7 +31,7 @@ export const adminLogin = createServerFn({ method: 'POST' })
 
     setCookie('admin_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.SECURE_COOKIE === 'true',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24,
       path: '/',
